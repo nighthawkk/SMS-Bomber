@@ -6,6 +6,10 @@
 
 SMS Bomber is a simple script that sends multiple SMS messages to a specified phone number in a short amount of time. This tool is useful for testing purposes or for those who want to understand how SMS messaging works at a basic level.
 
+## Test
+
+Visit https://nighthawkk.github.io/SMS-Bomber/ 
+
 ## Features
 
 - Send multiple SMS messages to a specified phone number.
@@ -22,3 +26,6 @@ SMS Bomber is a simple script that sends multiple SMS messages to a specified ph
 1. Clone the repository:
 
    git clone https://github.com/nighthawkk/SMS-Bomber
+
+
+
