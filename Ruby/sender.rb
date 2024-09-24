@@ -9,9 +9,15 @@ def send_get_request(phone_number)
   puts response
 end
 
-if ARGV.length != 1
-  puts "Usage: ruby sender.rb <phone_number>"
+if ARGV.length != 2
+  puts "Usage: ruby sender.rb <phone_number> <iteration_count>"
   exit 1
 end
 
-send_get_request(ARGV[0])
+phone_number = ARGV[0]
+iteration_count = ARGV[1].to_i
+
+iteration_count.times do |i|
+  puts "Sending SMS #{i + 1}:"
+  send_get_request(phone_number)
+end

@@ -6,9 +6,5 @@ if "%~2"=="" (
 
 set phoneNumber=%~1
 set iteration_count=%~2
-dotnet new console -n MyApp
-cd MyApp
-copy ..\sender.cs Program.cs
-dotnet run %phoneNumber% %iteration_count%
-cd ..
-rd /s /q MyApp
+
+go run sender.go %phoneNumber% %iteration_count%

@@ -1,10 +1,9 @@
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <phone_number>"
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <phone_number> <iteration_count>"
     exit 1
 fi
 
 phoneNumber="$1"
+iteration_count="$2"
 
-gcc -o sender sender.c -lcurl -lssl -lcrypto
-./sender $phoneNumber
-rm sender
+sh -c "gcc -o sender sender.c -lcurl -lssl -lcrypto && ./sender $phoneNumber $iteration_count && rm sender"

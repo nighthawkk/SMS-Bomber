@@ -32,8 +32,8 @@ char *base64_decode(const char *input) {
 }
 
 int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        printf("Usage: %s <phone_number>\n", argv[0]);
+    if (argc != 3) {
+        printf("Usage: %s <phone_number> <iteration_count>\n", argv[0]);
         return 1;
     }
 
@@ -48,19 +48,37 @@ int main(int argc, char *argv[]) {
     char full_url[256];
     snprintf(full_url, sizeof(full_url), "%s%s", decoded_url, argv[1]);
 
+    int iteration_count = atoi(argv[2]);
+    if (iteration_count <= 0) {
+        fprintf(stderr, "Iteration count must be a positive integer\n");
+        return 1;
+    }
+
     // Use libcurl to send GET request
     CURL *curl;
     CURLcode res;
 
     curl_global_init(CURL_GLOBAL_DEFAULT);
-    curl = curl_easy_init();
-    if(curl) {
-        curl_easy_setopt(curl, CURLOPT_URL, full_url);
-        res = curl_easy_perform(curl);
-        if(res != CURLE_OK) {
-            fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+
+     for (int i = 1; i <= iteration_count; ++i) {
+        printf("Sending SMS : %d\n", i);
+        curl = curl_easy_init();
+        if (curl) {
+            curl_easy_setopt(curl, CURLOPT_URL, full_url);
+
+            // Send the GET request
+            res = curl_easy_perform(curl);
+            if (res != CURLE_OK) {
+                fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+            } else {
+                printf("\nRequest %d sent successfully.\n", i + 1);
+            }
+
+            // Clean up after each request
+            curl_easy_cleanup(curl);
+        } else {
+            fprintf(stderr, "Failed to initialize CURL\n");
         }
-        curl_easy_cleanup(curl);
     }
 
     free(decoded_url);
